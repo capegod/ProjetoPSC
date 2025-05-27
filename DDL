@@ -1,0 +1,42 @@
+CREATE DATABASE Projeto;
+USE Projeto;
+
+CREATE TABLE Usuario (
+	ID INT IDENTITY(1,1) PRIMARY KEY,
+    Nome VARCHAR(255),
+    ChaveConf CHAR(7),
+    DenunciaQtde INT DEFAULT 0,
+    CPF VARCHAR(255)
+);
+
+CREATE TABLE Conta (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    Tipo BIT,
+    Instituicao VARCHAR(255),
+    UsuarioID INT FOREIGN KEY REFERENCES Usuario(ID),
+    DataCriacao DATETIME
+);
+
+CREATE TABLE Chave (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    ContaID INT FOREIGN KEY REFERENCES Conta(ID),
+    Tipo VARCHAR(255),
+    ChavePIX VARCHAR(255),
+    DataCriacao DATETIME,
+    DenunciaQtde INT DEFAULT 0
+);
+    
+CREATE TABLE Denuncia (
+	ID INT IDENTITY(1,1) PRIMARY KEY,
+    ChaveID INT FOREIGN KEY REFERENCES Chave(ID),
+    DataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Detalhes VARCHAR(255),
+    Confiab DECIMAL(4,3)
+);
+    
+CREATE TABLE Localidade (
+    ID INT PRIMARY KEY,
+    UsuarioID INT FOREIGN KEY REFERENCES usuario(ID),
+    LatLng VARCHAR(255),
+    DataHora DATETIME DEFAULT CURRENT_TIMESTAMP
+);
